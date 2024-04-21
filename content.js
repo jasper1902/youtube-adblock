@@ -1,78 +1,98 @@
-let originalVolume = 1;
 let playbackRate = 1;
-
 setInterval(checkVideoPlayer, 100);
 
 function checkVideoPlayer() {
-  const videoPlayer = document.getElementsByClassName("video-stream html5-main-video")[0];
-  if (!videoPlayer) return;
-
-  closeAds();
-  handleAdContainer(videoPlayer);
-  handleAdMessageContainer();
-  handleCompanionAdSlot();
-  handleMastheadAd();
-  handleAdSlotRenderer();
-  handleReelShelfRenderer();
-  skipAd();
-}
-
-function closeAds() {
-  const closeButtons = document.querySelectorAll(".ytp-ad-overlay-close-button");
-  closeButtons.forEach(button => button.click());
+  let videoPlayer = document.getElementsByClassName("video-stream html5-main-video")[0];
+  if (videoPlayer !== undefined) {
+    handleAdContainer(videoPlayer)
+    handleAdMessageContainer() 
+    handleCompanionAdSlot()
+    handleMastheadAd()
+    handleAdSlotRenderer();
+    handleReelShelfRenderer();
+    skipAd();
+  }
 }
 
 function handleAdContainer(videoPlayer) {
-  const adContainer = document.getElementsByClassName("video-ads ytp-ad-module")[0];
-  if (!adContainer) {
+  let ad = document.getElementsByClassName("video-ads ytp-ad-module")[0];
+  
+  if (ad == undefined) {
     playbackRate = videoPlayer.playbackRate;
-    return;
+  }
+  
+  closeAble()
+  hideSideAd()
+  speedUpVideo(ad, videoPlayer)
+  skipButton()
+}
+
+function closeAble() {
+  let closeAble = document.getElementsByClassName("ytp-ad-overlay-close-button");
+  for (let i = 0; i < closeAble.length; i++) {
+    closeAble[i].click();
+  }
+}
+function hideSideAd() {
+  let sideAd = document.getElementsByClassName("style-scope ytd-watch-next-secondary-results-renderer sparkles-light-cta GoogleActiveViewElement")[0];
+  if (sideAd !== undefined) {
+    sideAd.style.display = "none";
   }
 
-  const skipButton = document.querySelector(".ytp-ad-text.ytp-ad-skip-button-text");
-  if (skipButton) {
+  let sideAd_ = document.getElementsByClassName("style-scope ytd-item-section-renderer sparkles-light-cta")[0];
+  if (sideAd_ !== undefined) {
+    sideAd_.style.display = "none";
+  }
+}
+function speedUpVideo(adElement, player) {
+  const adContainer = adElement;
+  const adTextElement = document.querySelector(".ytp-ad-text[class*='ytp-ad-preview-text']");
+  
+  if (adContainer !== undefined && adContainer.children.length > 0 && adTextElement !== undefined) {
+    player.playbackRate = 16;
+    player.muted = true;
+  }
+}
+
+function skipButton() {
+  const skipButton = document.getElementsByClassName("ytp-ad-text ytp-ad-skip-button-text")[0]
+  if (skipButton !== undefined) {
     skipButton.click();
-  }
-
-  const adPreviewText = document.querySelector(".ytp-ad-text[class*='ytp-ad-preview-text']");
-  if (adPreviewText) {
-    videoPlayer.playbackRate = 16;
-    videoPlayer.muted = true;
   }
 }
 
 function handleAdMessageContainer() {
-  const adMessageContainer = document.querySelector(".ytp-ad-message-container");
-  if (adMessageContainer) {
+  const adMessageContainer = document.getElementsByClassName("ytp-ad-message-container")[0];
+  if (adMessageContainer !== undefined) {
     adMessageContainer.style.display = "none";
   }
 }
 
 function handleCompanionAdSlot() {
-  const companionAdSlot = document.querySelector(".style-scope.ytd-companion-slot-renderer");
-  if (companionAdSlot) {
+  const companionAdSlot = document.getElementsByClassName("style-scope ytd-companion-slot-renderer")[0]
+  if (companionAdSlot!== undefined) {
     companionAdSlot.remove();
   }
 }
 
 function handleMastheadAd() {
   const mastheadAd = document.getElementById("masthead-ad");
-  if (mastheadAd) {
+  if (mastheadAd !== null) {
     mastheadAd.remove();
   }
 }
 
 function handleAdSlotRenderer() {
-  const adSlotRenderer = document.querySelector("ytd-ad-slot-renderer");
-  if (adSlotRenderer) {
-    adSlotRenderer.remove();
+  const adSlotRenderer = document.getElementsByTagName("ytd-ad-slot-renderer");
+  if (adSlotRenderer[0] !== undefined) {
+    adSlotRenderer[0].remove();
   }
 }
 
 function handleReelShelfRenderer() {
-  const reelShelfRenderer = document.querySelector("ytd-reel-shelf-renderer");
-  if (reelShelfRenderer) {
-    reelShelfRenderer.remove();
+  const reelShelfRenderer = document.getElementsByTagName("ytd-reel-shelf-renderer");
+  if (reelShelfRenderer[0] !== undefined) {
+    reelShelfRenderer[0].remove();
   }
 }
 
