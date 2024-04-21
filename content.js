@@ -4,7 +4,7 @@ let playbackRate = 1;
 setInterval(checkVideoPlayer, 100);
 
 function checkVideoPlayer() {
-  const videoPlayer = document.querySelector(".video-stream.html5-main-video");
+  const videoPlayer = document.getElementsByClassName("video-stream html5-main-video")[0];
   if (!videoPlayer) return;
 
   closeAds();
@@ -23,7 +23,7 @@ function closeAds() {
 }
 
 function handleAdContainer(videoPlayer) {
-  const adContainer = document.querySelector(".video-ads.ytp-ad-module");
+  const adContainer = document.getElementsByClassName("video-ads ytp-ad-module")[0];
   if (!adContainer) {
     playbackRate = videoPlayer.playbackRate;
     return;
