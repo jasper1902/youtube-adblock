@@ -1,103 +1,60 @@
-let ogVolume = 1,
-  pbRate = 1;
+let originalVolume = 1;
+let playbackRate = 1;
+
 setInterval(() => {
-  if (
-    document.getElementsByClassName("video-stream html5-main-video")[0] !==
-    undefined
-  ) {
-    let ad = document.getElementsByClassName("video-ads ytp-ad-module")[0];
-    let vid = document.getElementsByClassName(
-      "video-stream html5-main-video"
-    )[0];
-    if (ad == undefined) {
-      pbRate = vid.playbackRate;
+  const videoPlayer = document.querySelector(".video-stream.html5-main-video");
+  
+  if (videoPlayer) {
+    const adContainer = document.querySelector(".video-ads.ytp-ad-module");
+    const closeButtons = document.querySelectorAll(".ytp-ad-overlay-close-button");
+    const skipButton = document.querySelector(".ytp-ad-text.ytp-ad-skip-button-text");
+    const adMessageContainer = document.querySelector(".ytp-ad-message-container");
+    const companionAdSlot = document.querySelector(".style-scope.ytd-companion-slot-renderer");
+    const mastheadAd = document.getElementById("masthead-ad");
+    const adSlotRenderer = document.querySelector("ytd-ad-slot-renderer");
+    const reelShelfRenderer = document.querySelector("ytd-reel-shelf-renderer");
+
+    closeButtons.forEach(button => button.click());
+
+    if (adContainer === undefined) {
+      playbackRate = videoPlayer.playbackRate;
     }
-    let closeAble = document.getElementsByClassName(
-      "ytp-ad-overlay-close-button"
-    );
-    for (let i = 0; i < closeAble.length; i++) {
-      closeAble[i].click();
+
+    if (skipButton) {
+      skipButton.click();
     }
-    if (
-      document.getElementsByClassName(
-        "style-scope ytd-watch-next-secondary-results-renderer sparkles-light-cta GoogleActiveViewElement"
-      )[0] !== undefined
-    ) {
-      let sideAd = document.getElementsByClassName(
-        "style-scope ytd-watch-next-secondary-results-renderer sparkles-light-cta GoogleActiveViewElement"
-      )[0];
-      sideAd.style.display = "none";
+
+    if (adMessageContainer) {
+      adMessageContainer.style.display = "none";
     }
-    if (
-      document.getElementsByClassName(
-        "style-scope ytd-item-section-renderer sparkles-light-cta"
-      )[0] !== undefined
-    ) {
-      let sideAd_ = document.getElementsByClassName(
-        "style-scope ytd-item-section-renderer sparkles-light-cta"
-      )[0];
-      sideAd_.style.display = "none";
+
+    if (companionAdSlot) {
+      companionAdSlot.remove();
     }
-    if (
-      document.getElementsByClassName(
-        "ytp-ad-text ytp-ad-skip-button-text"
-      )[0] !== undefined
-    ) {
-      let skipBtn = document.getElementsByClassName(
-        "ytp-ad-text ytp-ad-skip-button-text"
-      )[0];
-      skipBtn.click();
-    }
-    if (
-      document.getElementsByClassName("ytp-ad-message-container")[0] !==
-      undefined
-    ) {
-      let incomingAd = document.getElementsByClassName(
-        "ytp-ad-message-container"
-      )[0];
-      incomingAd.style.display = "none";
-    }
-    if (
-      document.getElementsByClassName(
-        "style-scope ytd-companion-slot-renderer"
-      )[0] !== undefined
-    ) {
-      document
-        .getElementsByClassName("style-scope ytd-companion-slot-renderer")[0]
-        .remove();
-    }
-    if (ad !== undefined) {
-      if (ad.children.length > 0) {
-        if (
-          document.querySelector(
-            ".ytp-ad-text[class*='ytp-ad-preview-text']"
-          ) !== undefined
-        ) {
-          console.log("skip ads")
-          vid.playbackRate = 16;
-          vid.muted = true;
-        }
+
+    if (adContainer && adContainer.children.length > 0) {
+      const adPreviewText = document.querySelector(".ytp-ad-text[class*='ytp-ad-preview-text']");
+      if (adPreviewText) {
+        videoPlayer.playbackRate = 16;
+        videoPlayer.muted = true;
       }
     }
-    if (document.getElementById("masthead-ad") !== null) {
-      let headerAd = document.getElementById("masthead-ad");
-      headerAd.remove();
+
+    if (mastheadAd) {
+      mastheadAd.remove();
     }
-    if (
-      document.getElementsByTagName("ytd-ad-slot-renderer")[0] !== undefined
-    ) {
-      let rightSideAd = document.getElementsByTagName(
-        "ytd-ad-slot-renderer"
-      )[0];
-      rightSideAd.remove();
+
+    if (adSlotRenderer) {
+      adSlotRenderer.remove();
     }
-    if (
-      document.getElementsByTagName("ytd-reel-shelf-renderer")[0] !== undefined
-    ) {
-      let rightSideShorts = document.getElementsByTagName(
-        "ytd-reel-shelf-renderer"
-      )[0];
-      rightSideShorts.remove();
+
+    if (reelShelfRenderer) {
+      reelShelfRenderer.remove();
+    }
+
+    const skipAdButton = document.querySelector(".ytp-skip-ad-button");
+    if (skipAdButton) {
+      skipAdButton.click();
     }
   }
 }, 100);
